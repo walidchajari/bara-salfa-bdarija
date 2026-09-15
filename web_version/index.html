@@ -796,7 +796,8 @@ pass: ()=>`
     <p class="sm">ما تشوفش الشاشة إلا ماشي نوبتك</p>
   </div>
   <div class="spacer"></div>
-  <button class="btn-cta" onclick="act.toReveal()">أنا هو ${esc(S.players[S.idx])} ✋</button>`,
+  <button class="btn-cta" onclick="act.toReveal()">أنا هو ${esc(S.players[S.idx])} ✋</button>
+  <button class="btn-ghost btn-sm" onclick="act.again()">🔄 عاود من لول</button>`,
 
 /* ── REVEAL ────────────────────────────────────────────────── */
 reveal: ()=>{
@@ -849,7 +850,8 @@ chaos: ()=>{
     <p class="sm">هاد القاعدة كتطبق على الجميع — حتى على برا السالفة</p>
   </div>
   <div class="spacer"></div>
-  <button class="btn-primary" onclick="act.discuss()">فهمنا — نبداو! 🔥</button>`;
+  <button class="btn-primary" onclick="act.discuss()">فهمنا — نبداو! 🔥</button>
+  <button class="btn-ghost btn-sm" onclick="act.again()">🔄 عاود من لول</button>`;
 },
 
 /* ── CHAIN (DISCUSSION) ────────────────────────────────────── */
