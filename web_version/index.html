@@ -783,7 +783,8 @@ config: ()=>`
     </button>
   `).join('')}
   <div class="spacer"></div>
-  <button class="btn-cta anim-fadeup" onclick="act.start()">يالله نبداو! 🚀</button>`,
+  <button class="btn-cta anim-fadeup" onclick="act.start()">يالله نبداو! 🚀</button>
+  <button class="btn-ghost anim-fadeup" onclick="go('home')">← رجع للبداية</button>`,
 
 /* ── PASS PHONE ────────────────────────────────────────────── */
 pass: ()=>`
@@ -1004,7 +1005,9 @@ board: ()=>{
   ${done?`
   <button class="btn-cta anim-fadeup d3" onclick="act.again()">🔄 عاود من الأول</button>
   <button class="btn-ghost anim-fadeup d4" onclick="go('home')">🏠 الصفحة الرئيسية</button>`
-  :`<button class="btn-primary anim-fadeup d3" onclick="act.start()">الجولة اللي جاية ⚡</button>`}`;
+  :`
+  <button class="btn-primary anim-fadeup d3" onclick="act.start()">الجولة اللي جاية ⚡</button>
+  <button class="btn-ghost anim-fadeup d4" onclick="go('home')">🏠 رجع للبداية</button>`}`;
 },
 }; // end VIEWS
 
