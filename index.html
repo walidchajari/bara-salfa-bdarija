@@ -275,11 +275,63 @@ tr.me td{color:var(--flame)}
 }
 
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ─── QUIT BUTTON ────────────────────────────────────────── */
+.quit-btn{
+  position:fixed;top:14px;left:14px;
+  width:34px;height:34px;padding:0;
+  border-radius:50%;
+  background:rgba(30,21,48,.75);
+  border:1.5px solid var(--edge);
+  color:var(--dim);font-size:15px;
+  display:grid;place-items:center;
+  z-index:100;cursor:pointer;
+  backdrop-filter:blur(6px);
+  transition:color .15s,border-color .15s;
+  font-family:inherit;width:34px;
+}
+.quit-btn:hover{color:var(--chalk);border-color:var(--dim)}
+.quit-btn:focus-visible{outline:3px solid var(--mint);outline-offset:3px}
+
+/* ─── MODAL ──────────────────────────────────────────────── */
+.modal-overlay{
+  position:fixed;inset:0;
+  background:rgba(18,13,31,.88);
+  z-index:200;
+  display:flex;align-items:center;justify-content:center;
+  padding:24px;
+  backdrop-filter:blur(5px);
+  animation:fadeIn .2s ease both;
+}
+.modal-overlay[hidden]{display:none}
+.modal-box{
+  background:var(--raise);
+  border:1px solid var(--edge);
+  border-radius:22px;
+  padding:28px 22px;
+  width:100%;max-width:360px;
+  text-align:center;
+}
+.modal-box h2{font-size:20px;margin-bottom:10px;color:var(--chalk)}
+.modal-box p{font-size:14px;margin-bottom:22px;color:var(--dim);line-height:1.6}
 </style>
 </head>
 <body>
 <div class="home-bg" id="homeBg"></div>
 <div id="app"></div>
+
+<button id="quit-btn" class="quit-btn" onclick="act.showQuitModal()" aria-label="خروج من اللعبة" hidden>✕</button>
+
+<div id="quit-modal" class="modal-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="quit-title">
+  <div class="modal-box">
+    <h2 id="quit-title">بغيتي تخرج من اللعبة؟</h2>
+    <p>غادي تضيع التقدم ديال الجولة الحالية.</p>
+    <div class="row">
+      <button class="btn-ghost" onclick="act.hideQuitModal()">لا، كمّل اللعب</button>
+      <button class="btn-primary" onclick="act.confirmQuit()">إيه، خرج</button>
+    </div>
+  </div>
+</div>
 <script>
 "use strict";
 
@@ -682,10 +734,14 @@ function hdr(){
   </div><div class="zig"></div>`;
 }
 
+const GAME_PHASES = new Set(['pass','reveal','chaos','chain','votepass','cast','judge','bonus','result']);
+
 function render(){
   app.innerHTML = `<div class="screen">${VIEWS[S.phase]()}</div>`;
   if(S.phase==='home') buildHomeBg();
   const af = app.querySelector('[autofocus]'); if(af) af.focus();
+  const qb = document.getElementById('quit-btn');
+  if(qb) qb.hidden = !GAME_PHASES.has(S.phase);
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -1013,6 +1069,24 @@ board: ()=>{
 }; // end VIEWS
 
 /* ══════════════════════════════════════════════════════════
+   QUIT MODAL
+══════════════════════════════════════════════════════════ */
+act.showQuitModal = ()=>{
+  const m = document.getElementById('quit-modal');
+  m.hidden = false;
+  m.querySelector('button').focus();
+};
+act.hideQuitModal = ()=>{ document.getElementById('quit-modal').hidden = true; };
+act.confirmQuit = ()=>{
+  stopClock();
+  act.hideQuitModal();
+  S.phase='home'; S.players=[]; S.mode='hybrid'; S.catId=null;
+  S.round=0; S.intrusHistory=[]; S.chaosHistory=[]; S.scores={};
+  S.r=null; S.idx=0; S.tieRound=false; S.clockLeft=0; S.clockDone=false;
+  render();
+};
+
+/* ══════════════════════════════════════════════════════════
    ACTIONS
 ══════════════════════════════════════════════════════════ */
 act.setup = ()=>{ if(!S.players.length) S.players=['','',''];  go('setup'); };
@@ -1125,6 +1199,10 @@ function bindHold(){
   el.addEventListener('pointerleave',up);
   el.addEventListener('contextmenu',e=>e.preventDefault());
 }
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape' && !document.getElementById('quit-modal').hidden) act.hideQuitModal();
+});
 
 document.addEventListener('visibilitychange',()=>{
   if(document.hidden && S.phase==='reveal'){
