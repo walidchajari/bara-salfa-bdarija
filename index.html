@@ -4,32 +4,57 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <title>برا السالفة بالدارجة</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23F6EFE2'/><path d='M50 6 L59 41 L94 50 L59 59 L50 94 L41 59 L6 50 L41 41 Z' fill='none' stroke='%23F2B23D' stroke-width='5'/><text x='50' y='72' font-size='50' text-anchor='middle'>🕵️</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 /* ─── TOKENS ─────────────────────────────────────────────── */
 :root{
-  --night:#120D1F;
-  --raise:#1E1530;
-  --card:#261C3A;
-  --edge:#3A2860;
-  --flame:#FF4500;
-  --fire2:#FF8C00;
-  --saffron:#FFC43D;
-  --mint:#2EFFA8;
-  --chalk:#F6EFE6;
-  --dim:#9B8BBF;
+  --paper:#F6EFE2;
+  --paper2:#EDE2C9;
+  --card:#FFF9EC;
+  --ink:#2A2118;
+  --ink50:rgba(42,33,24,.55);
+  --ink35:rgba(42,33,24,.3);
+  --ink15:rgba(42,33,24,.15);
+  --terra:#C8412B;
+  --terra2:#E85C2A;
+  --saffron:#F2B23D;
+  --tea:#1F7A6B;
+  --mint:#3FBA9A;
+  --chalk:#3A2E22;
+  --dim:#8A7A63;
   --r:18px;
+  --shadow:0 4px 0 var(--ink);
+  --shadow-sm:0 3px 0 var(--ink);
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow-x:hidden}
 body{
-  background:var(--night);
+  background:var(--paper);
+  background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96"><g fill="none" stroke="%232A2118" stroke-opacity=".06" stroke-width="1.6"><path d="M48 14 L55 41 L82 48 L55 55 L48 82 L41 55 L14 48 L41 41 Z"/><circle cx="48" cy="48" r="6"/><path d="M0 20 L16 14 M96 20 L80 14 M0 76 L16 82 M96 76 L80 82"/><path d="M20 0 L14 16 M76 0 L82 16 M20 96 L14 80 M76 96 L82 80"/></g></svg>');
+  background-size:96px 96px;
   color:var(--chalk);
   font-family:'Cairo',system-ui,sans-serif;
   display:flex;justify-content:center;
   overscroll-behavior:none;
+}
+body::before,body::after{
+  content:'';position:fixed;z-index:0;pointer-events:none;
+  border:2.5px solid var(--ink);
+}
+body::before{
+  width:190px;height:190px;top:-80px;left:-80px;
+  background:linear-gradient(135deg,rgba(242,178,61,.9),rgba(242,178,61,.5));
+  border-radius:40% 60% 55% 45%;
+  transform:rotate(14deg);
+}
+body::after{
+  width:150px;height:150px;bottom:-70px;right:-60px;
+  background:linear-gradient(135deg,rgba(63,186,154,.7),rgba(63,186,154,.28));
+  border-radius:58% 42% 60% 40%;
+  transform:rotate(-16deg);
 }
 #app{
   width:100%;max-width:460px;min-height:100dvh;
@@ -37,69 +62,73 @@ body{
   padding:20px 18px calc(24px + env(safe-area-inset-bottom));
   position:relative;z-index:1;
 }
-.screen{flex:1;display:flex;flex-direction:column;gap:16px}
+.screen{flex:1;display:flex;flex-direction:column;gap:16px;animation:screenIn .5s cubic-bezier(.22,1,.36,1) both}
+.screen.same{animation:softIn .22s ease both}
+.screen.same .anim-fadeup,
+.screen.same .anim-pop,
+.screen.same .anim-shake{animation:none!important}
 .spacer{flex:1}
 
 /* ─── TYPOGRAPHY ─────────────────────────────────────────── */
-h1{font-size:clamp(40px,13vw,62px);font-weight:900;line-height:1;letter-spacing:-1px}
-h2{font-size:24px;font-weight:800;line-height:1.2}
-h3{font-size:18px;font-weight:700}
-p{font-size:15px;line-height:1.7;color:var(--dim)}
+h1{font-family:'Lalezar','Cairo',sans-serif;font-size:clamp(40px,13vw,60px);font-weight:400;line-height:1;letter-spacing:0}
+h2{font-family:'Lalezar','Cairo',sans-serif;font-size:30px;font-weight:400;line-height:1.1}
+h3{font-size:17px;font-weight:800}
+p{font-size:15px;line-height:1.65;color:var(--dim)}
 .lead{color:var(--chalk)}
 .sm{font-size:13px}
+.cat-pill{display:inline-block;font-size:12px;font-weight:900;background:var(--saffron);color:var(--ink);border:2.5px solid var(--ink);border-radius:99px;padding:2px 12px;transform:rotate(-1deg);max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 /* ─── DECORATIONS ────────────────────────────────────────── */
 .zig{
-  height:9px;
-  background-image:
-    linear-gradient(135deg,var(--flame) 25%,transparent 25%),
-    linear-gradient(225deg,var(--flame) 25%,transparent 25%);
-  background-size:16px 9px;
-  border-radius:3px;opacity:.6;
+  height:12px;border-radius:2px;
+  background-image:linear-gradient(96deg,var(--terra2) 0 30%,var(--ink) 30% 36%,var(--terra) 36% 66%,var(--saffron) 66% 100%);
+  background-size:26px 12px;background-repeat:repeat-x;
+  transform:rotate(-.5deg);opacity:.9;
 }
-.bar{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--dim);font-weight:700}
-.bar b{color:var(--saffron);font-weight:900}
+.bar{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--dim);font-weight:800;padding:2px 4px;gap:8px}
+.bar b{color:var(--terra);font-weight:900}
 .tag{
-  display:inline-flex;align-items:center;gap:5px;
-  font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;
-  padding:4px 12px;border-radius:99px;
-  background:var(--edge);color:var(--saffron);
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:11px;font-weight:900;letter-spacing:.5px;text-transform:uppercase;
+  padding:5px 14px;border-radius:99px;
+  background:var(--saffron);color:var(--ink);
+  border:2.5px solid var(--ink);box-shadow:var(--shadow-sm);
+  transform:rotate(-2deg);
 }
 
 /* ─── BUTTONS ────────────────────────────────────────────── */
 button{
   font-family:inherit;font-size:17px;font-weight:800;
-  border:0;border-radius:var(--r);padding:16px 20px;
+  border:3px solid var(--ink);border-radius:16px;padding:15px 20px;
   cursor:pointer;width:100%;
-  transition:transform .1s,box-shadow .1s;
+  background:var(--paper2);color:var(--ink);
+  box-shadow:var(--shadow);
+  transition:transform .12s,box-shadow .12s,background .15s;
   position:relative;overflow:hidden;
 }
 button::after{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(255,255,255,.08) 0%,transparent 60%);
-  pointer-events:none;
+  background:repeating-linear-gradient(-45deg,rgba(255,255,255,.14) 0 6px,transparent 6px 12px);
+  opacity:.4;pointer-events:none;mix-blend-mode:overlay;
 }
-button:active{transform:scale(.97)}
-button:focus-visible{outline:3px solid var(--mint);outline-offset:3px}
-button[disabled]{opacity:.3;cursor:not-allowed;transform:none}
+button:hover{transform:translateY(-2px)}
+button:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+button:focus-visible{outline:3px solid var(--terra);outline-offset:3px}
+button[disabled]{opacity:.35;cursor:not-allowed;transform:none;box-shadow:0 2px 0 var(--ink)}
 
 .btn-primary{
-  background:linear-gradient(135deg,var(--flame),var(--fire2));
-  color:#fff;
-  box-shadow:0 6px 24px rgba(255,69,0,.45);
+  background:linear-gradient(135deg,var(--tea),var(--mint));
+  color:var(--paper);
 }
 .btn-cta{
-  background:linear-gradient(135deg,var(--saffron),#FFB300);
-  color:#120D1F;
-  box-shadow:0 6px 24px rgba(255,196,61,.4);
-  font-size:19px;
-  padding:19px 20px;
+  background:linear-gradient(135deg,var(--terra) 0%,var(--terra2) 55%,var(--saffron) 140%);
+  color:var(--paper);
+  font-size:20px;font-weight:900;letter-spacing:.5px;
+  padding:18px 20px;
+  animation:nudge 2.4s ease-in-out infinite;
 }
-.btn-ghost{
-  background:transparent;color:var(--chalk);
-  border:2px solid var(--edge);
-}
-.btn-ghost:hover{border-color:var(--dim)}
+.btn-ghost{background:var(--card);color:var(--ink)}
+.btn-ghost:hover{background:var(--paper2)}
 .btn-sm{font-size:14px;padding:11px 14px}
 .row{display:flex;gap:10px}
 .row button{flex:1}
@@ -107,275 +136,328 @@ button[disabled]{opacity:.3;cursor:not-allowed;transform:none}
 /* ─── INPUTS ─────────────────────────────────────────────── */
 input{
   width:100%;font-family:inherit;font-size:17px;font-weight:700;
-  padding:14px 16px;border-radius:14px;
-  border:2px solid var(--edge);
-  background:var(--card);color:var(--chalk);
-  transition:border-color .15s;
+  padding:13px 16px;border-radius:14px;
+  border:2.5px dashed var(--ink50);
+  background:var(--card);color:var(--ink);
+  transition:border-color .15s,box-shadow .15s;
 }
-input:focus{outline:0;border-color:var(--saffron)}
+input:focus{outline:0;border-style:solid;border-color:var(--tea);box-shadow:0 3px 0 var(--ink)}
 input::placeholder{color:var(--dim);font-weight:600}
 
 /* ─── CARDS / PICKS ──────────────────────────────────────── */
 .card{
-  background:var(--card);border:1px solid var(--edge);
+  background:var(--card);border:3px solid var(--ink);
   border-radius:var(--r);padding:18px;
+  box-shadow:var(--shadow-sm);
 }
 .pick{
   width:100%;text-align:right;
-  background:var(--card);border:2px solid var(--edge);
+  background:var(--card);border:2.5px solid var(--ink50);
   border-radius:14px;padding:14px 16px;
-  color:var(--chalk);font-size:16px;font-weight:700;
-  cursor:pointer;transition:border-color .15s,background .15s;
+  color:var(--ink);font-size:16px;font-weight:800;
+  cursor:pointer;transition:border-color .15s,background .15s,box-shadow .15s,transform .12s;
   margin-bottom:8px;
 }
-.pick:hover{border-color:var(--dim)}
-.pick.on{border-color:var(--saffron);background:rgba(255,196,61,.08)}
-.pick .sub{display:block;font-size:12px;font-weight:600;color:var(--dim);margin-top:3px}
+.pick:hover{border-color:var(--ink);transform:translateY(-2px)}
+.pick.on{border-color:var(--terra);background:#FFF1DC;box-shadow:3px 3px 0 var(--terra)}
+.pick .sub{display:block;font-size:12px;font-weight:700;color:var(--dim);margin-top:3px}
+
+/* ─── COUNT CHIPS ────────────────────────────────────────── */
+.count-row{display:flex;gap:8px;justify-content:center}
+.count-chip{
+  flex:1;max-width:52px;height:48px;padding:0;
+  font-size:20px;font-weight:900;border-radius:12px;
+  background:var(--card);border:2.5px solid var(--ink);
+  box-shadow:0 3px 0 var(--ink);color:var(--ink);
+  display:grid;place-items:center;
+  transition:transform .1s,box-shadow .1s,background .15s;
+}
+.count-chip:hover{transform:translateY(-2px)}
+.count-chip:active{transform:translateY(1px);box-shadow:0 1px 0 var(--ink)}
+.count-chip.on{background:var(--terra);color:var(--paper);box-shadow:3px 3px 0 var(--ink)}
+.count-chip.count-more{font-size:24px;line-height:0;letter-spacing:1px;animation:morePulse 1.3s ease-in-out infinite}
+@keyframes morePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.16)}}
+
+/* ─── COUNT TYPER ────────────────────────────────────────── */
+.count-typer{display:flex;align-items:center;justify-content:center;gap:10px}
+.count-input{
+  width:82px;text-align:center;
+  font-size:30px;font-weight:900;
+  padding:8px 10px;border-radius:16px;
+  border:2.5px solid var(--ink);
+  background:var(--card);color:var(--terra);
+  -moz-appearance:textfield;
+  animation:countGlow 1.7s ease-in-out infinite;
+}
+.count-input::-webkit-outer-spin-button,
+.count-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.count-input:focus{outline:0;border-color:var(--terra);animation:none;box-shadow:0 3px 0 var(--ink)}
+.count-unit{font-size:15px;font-weight:900;color:var(--dim)}
+.count-hint{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  font-size:12px;font-weight:800;color:var(--terra);margin-top:2px;
+}
+.count-hint .wag{display:inline-block;animation:hintWiggle 1.4s ease-in-out infinite}
+@keyframes countGlow{
+  0%,100%{box-shadow:0 3px 0 var(--ink),0 0 0 0 rgba(200,65,43,0)}
+  50%{box-shadow:0 3px 0 var(--ink),0 0 0 9px rgba(200,65,43,.16)}
+}
 
 /* ─── HOLD-TO-REVEAL ─────────────────────────────────────── */
 .hold{
   position:relative;flex:1;min-height:280px;
-  border-radius:26px;border:2px dashed var(--edge);
+  border-radius:24px;border:3px dashed var(--ink50);
   background:var(--card);
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   gap:12px;text-align:center;padding:26px;
   touch-action:none;user-select:none;
   transition:border-color .25s,background .25s;
+  box-shadow:var(--shadow-sm);
 }
-.hold.live{border-style:solid;border-color:var(--flame);background:rgba(255,69,0,.07)}
-.hold .hint{font-size:15px;font-weight:700;color:var(--dim)}
+.hold.live{border-style:solid;border-color:var(--terra);background:#FFF1DC}
+.hold .hint{font-size:15px;font-weight:800;color:var(--dim)}
+.hold .veil{display:flex;flex-direction:column;align-items:center;gap:12px}
 .ring{
   width:88px;height:88px;border-radius:50%;
-  background:conic-gradient(var(--flame) calc(var(--p)*1%),var(--edge) 0);
+  background:conic-gradient(var(--saffron) calc(var(--p)*1%),var(--ink15) 0);
   display:grid;place-items:center;
+  border:3px solid var(--ink);
   transition:none;
 }
-.ring-inner{width:66px;height:66px;border-radius:50%;background:var(--card);display:grid;place-items:center;font-size:28px}
+.ring-inner{width:64px;height:64px;border-radius:50%;background:var(--paper);display:grid;place-items:center;font-size:28px;border:2px solid var(--ink)}
 .secret{display:none}
-.hold.live .secret{display:block}
+.hold.live .secret{display:block;animation:pop .35s cubic-bezier(.34,1.56,.64,1)}
 .hold.live .veil{display:none}
 .role-badge{
-  font-size:13px;font-weight:900;letter-spacing:1.5px;
-  padding:5px 14px;border-radius:99px;margin-bottom:4px;
+  font-size:13px;font-weight:900;letter-spacing:1px;
+  padding:6px 16px;border-radius:10px;margin-bottom:6px;
   display:inline-block;
+  border:2.5px solid var(--ink);box-shadow:var(--shadow-sm);
+  transform:rotate(-2deg);
 }
-.role-intrus{background:rgba(255,69,0,.2);color:var(--flame)}
-.role-safe{background:rgba(46,255,168,.12);color:var(--mint)}
-.word-reveal{font-size:clamp(36px,11vw,52px);font-weight:900;margin:6px 0 10px;line-height:1.1}
-.mission-txt{font-size:15px;font-weight:700;color:var(--saffron);line-height:1.6;
-  background:rgba(255,196,61,.08);border:1px solid rgba(255,196,61,.2);
-  border-radius:12px;padding:12px;margin-top:8px}
+.role-intrus{background:#FFD9C7;color:var(--terra)}
+.role-safe{background:#D8F0E4;color:var(--tea)}
+.word-reveal{
+  font-family:'Lalezar','Cairo',sans-serif;
+  font-size:clamp(42px,12vw,58px);font-weight:400;
+  margin:8px 0 10px;line-height:1.05;
+  color:var(--ink);
+  background:linear-gradient(180deg,rgba(242,178,61,.5),rgba(242,178,61,.22));
+  padding:2px 18px;border-radius:10px;
+  transform:rotate(-1deg);
+  text-shadow:2px 2px 0 rgba(255,255,255,.65);
+}
+.mission-txt{font-size:15px;font-weight:800;color:var(--tea);line-height:1.6;
+  background:var(--paper2);border:2.5px solid var(--tea);
+  border-radius:12px;padding:12px;margin-top:8px;
+  box-shadow:3px 3px 0 rgba(31,122,107,.3);
+  text-align:right;}
 
 /* ─── TABLE ──────────────────────────────────────────────── */
 table{width:100%;border-collapse:collapse}
-td{padding:12px 4px;border-bottom:1px solid var(--edge);font-weight:700;font-size:16px}
-td.pts{text-align:left;color:var(--saffron);font-weight:900;font-variant-numeric:tabular-nums;font-size:18px}
+td{padding:12px 4px;border-bottom:2.5px dashed var(--ink15);font-weight:800;font-size:16px;color:var(--ink)}
+td.pts{text-align:left;color:var(--terra);font-weight:900;font-variant-numeric:tabular-nums;font-size:18px}
 tr.winner td:first-child::before{content:'🥇 '}
-tr.me td{color:var(--flame)}
+tr.winner td{animation:winnerBob 1.4s ease-in-out infinite}
+tr.me td{color:var(--terra)}
 
 /* ─── ANIMATIONS ─────────────────────────────────────────── */
-@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px) rotate(-.4deg)}to{opacity:1;transform:none}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes pop{0%{transform:scale(.8);opacity:0}70%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
+@keyframes pop{0%{transform:scale(.82) rotate(-1.2deg);opacity:0}65%{transform:scale(1.04) rotate(.4deg)}100%{transform:scale(1) rotate(0);opacity:1}}
 @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
-@keyframes glow{0%,100%{box-shadow:0 0 12px rgba(255,69,0,.3)}50%{box-shadow:0 0 28px rgba(255,69,0,.7)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
 @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 @keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-@keyframes countPulse{0%{transform:scale(1)}50%{transform:scale(1.35);color:var(--flame)}100%{transform:scale(1)}}
-@keyframes orbFloat{
-  0%,100%{transform:translate(0,0) scale(1)}
-  30%{transform:translate(-28px,22px) scale(1.07)}
-  70%{transform:translate(20px,-16px) scale(.93)}
-}
-@keyframes badgePulse{
-  0%,100%{box-shadow:0 4px 20px rgba(255,69,0,.45)}
-  50%{box-shadow:0 4px 34px rgba(255,140,0,.75),0 0 60px rgba(255,69,0,.2)}
-}
-@keyframes titleGlow{
-  0%,100%{filter:drop-shadow(0 0 20px rgba(255,196,61,.25))}
-  50%{filter:drop-shadow(0 0 40px rgba(255,196,61,.55))}
-}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-10px) rotate(1deg)}}
+@keyframes countPulse{0%{transform:scale(1)}50%{transform:scale(1.35);color:var(--terra)}100%{transform:scale(1)}}
+@keyframes screenIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes softIn{from{opacity:.4}to{opacity:1}}
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes nudge{0%,100%{transform:translateY(0) rotate(-.6deg)}50%{transform:translateY(-3px) rotate(.6deg)}}
+@keyframes stampIn{0%{opacity:0;transform:scale(1.7) rotate(-8deg)}60%{transform:scale(.9) rotate(1deg)}100%{opacity:1;transform:scale(1) rotate(1.4deg)}}
+@keyframes titleBob{0%,100%{transform:rotate(-.6deg) translateY(0)}50%{transform:rotate(.6deg) translateY(-4px)}}
+@keyframes winnerBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px) scale(1.02)}}
+@keyframes orbFloat{0%,100%{transform:translate(0,0) rotate(0) scale(1)}30%{transform:translate(-24px,20px) rotate(6deg) scale(1.06)}70%{transform:translate(18px,-14px) rotate(-6deg) scale(.94)}}
 
-.anim-fadeup{animation:fadeUp .4s ease both}
-.anim-pop{animation:pop .4s cubic-bezier(.34,1.56,.64,1) both}
+.anim-fadeup{animation:fadeUp .45s cubic-bezier(.22,1,.36,1) both}
+.anim-pop{animation:pop .45s cubic-bezier(.34,1.56,.64,1) both}
 .anim-shake{animation:shake .5s ease}
-.d1{animation-delay:.05s}.d2{animation-delay:.1s}.d3{animation-delay:.15s}.d4{animation-delay:.2s}.d5{animation-delay:.25s}
+.d1{animation-delay:.06s}.d2{animation-delay:.12s}.d3{animation-delay:.18s}.d4{animation-delay:.24s}.d5{animation-delay:.3s}
 
 /* ─── HOME SCREEN ────────────────────────────────────────── */
 .home-bg{
   position:fixed;inset:0;z-index:0;pointer-events:none;
   overflow:hidden;
 }
-.home-bg span{
-  position:absolute;
-  animation:float 3s ease-in-out infinite;
-  opacity:.1;
-}
-/* orbs */
-.home-orb{position:absolute;border-radius:50%;pointer-events:none}
+/* painted blobs */
+.home-orb{position:absolute;border-radius:44% 56% 50% 50%;pointer-events:none}
 .home-orb-1{
-  width:380px;height:380px;
-  background:radial-gradient(circle,rgba(255,69,0,.42) 0%,transparent 68%);
-  top:-110px;right:-110px;
-  animation:orbFloat 9s ease-in-out infinite;
-  filter:blur(55px);
+  width:330px;height:330px;
+  background:radial-gradient(circle,rgba(200,65,43,.5) 0%,rgba(200,65,43,0) 66%);
+  top:-120px;right:-120px;
+  animation:orbFloat 10s ease-in-out infinite;
+  filter:blur(30px);
 }
 .home-orb-2{
-  width:280px;height:280px;
-  background:radial-gradient(circle,rgba(255,196,61,.32) 0%,transparent 68%);
-  bottom:60px;left:-90px;
-  animation:orbFloat 12s ease-in-out infinite reverse;
-  filter:blur(48px);
+  width:260px;height:260px;
+  background:radial-gradient(circle,rgba(242,178,61,.5) 0%,rgba(242,178,61,0) 66%);
+  bottom:40px;left:-110px;
+  animation:orbFloat 13s ease-in-out infinite reverse;
+  filter:blur(28px);
 }
 .home-orb-3{
   width:200px;height:200px;
-  background:radial-gradient(circle,rgba(46,255,168,.18) 0%,transparent 68%);
-  top:42%;right:-50px;
-  animation:orbFloat 8s ease-in-out infinite 2s;
-  filter:blur(42px);
+  background:radial-gradient(circle,rgba(63,186,154,.4) 0%,rgba(63,186,154,0) 66%);
+  top:40%;right:-40px;
+  animation:orbFloat 9s ease-in-out infinite 2s;
+  filter:blur(24px);
 }
-/* mascot */
-.home-mascot-wrap{
-  position:relative;display:inline-block;
-  margin-bottom:6px;
+/* ticket marquee */
+.ticker{
+  margin:2px 0 4px;position:relative;overflow:hidden;
+  background:var(--ink);color:var(--paper);
+  font-size:13px;font-weight:800;letter-spacing:.5px;
+  padding:9px 0;border:2.5px solid var(--ink);
+  border-radius:10px;box-shadow:var(--shadow-sm);
 }
-.home-mascot-ring{
-  position:absolute;inset:-16px;border-radius:50%;
-  background:conic-gradient(
-    var(--flame) 0%,var(--saffron) 28%,var(--mint) 52%,#a78bfa 76%,var(--flame) 100%
-  );
-  opacity:.45;filter:blur(6px);
-  animation:spin 6s linear infinite;
+.ticker .track{display:inline-block;white-space:nowrap;padding:0 8px;animation:marq 26s linear infinite;will-change:transform}
+/* hero */
+.hero{display:flex;flex-direction:column;align-items:center}
+.home-mascot-wrap{position:relative;display:inline-block;margin-bottom:10px}
+.star8{
+  position:absolute;inset:-44px;margin:auto;width:150px;height:150px;
+  animation:spin 16s linear infinite;
+  filter:drop-shadow(2px 2px 0 rgba(42,33,24,.18));
+}
+.tape{
+  position:absolute;z-index:2;
+  background:rgba(242,178,61,.85);
+  border:2px solid var(--ink);border-radius:4px;
+  top:10px;right:-14px;width:64px;height:16px;
+  transform:rotate(7deg);
 }
 .home-mascot-emoji{
-  font-size:82px;display:block;
-  animation:float 3.2s ease-in-out infinite;
-  position:relative;z-index:1;
-  filter:drop-shadow(0 8px 24px rgba(0,0,0,.4));
+  font-size:64px;display:block;position:relative;z-index:1;
+  background:var(--card);border:3px solid var(--ink);border-radius:16px;
+  padding:12px;line-height:1;
+  box-shadow:var(--shadow);
+  transform:rotate(-3deg);
+  animation:float 3.6s ease-in-out infinite;
 }
 /* title — two stacked lines */
-.home-title-wrap{
-  display:flex;flex-direction:column;align-items:center;
-  gap:6px;
-  animation:titleGlow 4s ease-in-out infinite;
-}
-/* "برا" — flame pill */
+.home-title-wrap{display:flex;flex-direction:column;align-items:center;gap:2px}
 .home-title-bara{
-  display:inline-flex;align-items:center;justify-content:center;
-  font-size:clamp(38px,11.5vw,58px);
-  font-weight:900;
-  letter-spacing:10px;
-  text-indent:10px; /* compensate letter-spacing on last char */
-  line-height:1;
-  padding:6px 28px 10px;
-  border-radius:20px;
-  background:linear-gradient(135deg,var(--flame) 0%,var(--fire2) 50%,var(--saffron) 100%);
-  color:#fff;
-  box-shadow:
-    0 6px 28px rgba(255,69,0,.55),
-    0 0 60px rgba(255,140,0,.2),
-    inset 0 1px 0 rgba(255,255,255,.18);
+  font-family:'Lalezar','Cairo',sans-serif;
+  font-size:clamp(46px,13.5vw,64px);line-height:1;
+  color:var(--terra);
+  padding:0 18px;
   position:relative;
+  text-shadow:2px 2px 0 var(--saffron),4px 4px 0 var(--ink);
 }
-/* fire underline accent */
+/* hand-drawn squiggle underline */
 .home-title-bara::after{
-  content:'';
-  position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);
-  width:40%;height:3px;border-radius:2px;
-  background:linear-gradient(90deg,transparent,var(--flame),transparent);
-  opacity:.7;
+  content:'';position:absolute;left:8px;right:8px;bottom:2px;height:10px;
+  background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="12" viewBox="0 0 120 12"><path d="M2 8 Q10 2 20 6 T40 7 T60 5 T80 7 T100 5 T118 7" fill="none" stroke="%23F2B23D" stroke-width="5" stroke-linecap="round"/></svg>') repeat-x bottom;
+  background-size:120px 12px;
 }
-/* "السالفة" — big hero gradient */
 .home-title-salfa{
+  font-family:'Lalezar','Cairo',sans-serif;
   display:block;
-  font-size:clamp(62px,18.5vw,92px);
-  font-weight:900;letter-spacing:-3px;line-height:.88;
-  background:linear-gradient(140deg,#ffffff 0%,#ffffff 22%,var(--saffron) 55%,var(--flame) 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  margin-top:6px;
+  font-size:clamp(72px,20vw,100px);line-height:.92;
+  color:var(--ink);
+  text-shadow:4px 4px 0 var(--saffron);
+  animation:titleBob 3.5s ease-in-out infinite;
 }
-/* "بالدارجة" badge */
 .home-darija-badge{
-  display:inline-flex;align-items:center;gap:7px;
-  font-size:clamp(11px,3.2vw,15px);font-weight:900;
-  letter-spacing:2px;text-transform:uppercase;
-  padding:7px 22px;border-radius:99px;
-  background:linear-gradient(135deg,var(--flame),var(--fire2));
-  color:#fff;
-  animation:badgePulse 3s ease-in-out infinite;
-  margin-top:14px;
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:clamp(12px,3.4vw,15px);font-weight:900;
+  margin-top:12px;
+  padding:7px 20px;border-radius:8px;
+  background:var(--terra);color:var(--paper);
+  border:3px solid var(--ink);box-shadow:var(--shadow-sm);
+  transform:rotate(1.4deg);
+  animation:stampIn .55s cubic-bezier(.22,1,.36,1) both;
 }
-/* tagline */
 .home-tagline{
   font-size:clamp(13px,3.8vw,16px);
-  color:var(--dim);font-weight:600;margin-top:12px;letter-spacing:.2px;
+  color:var(--dim);font-weight:700;margin-top:12px;letter-spacing:.2px;
 }
-/* feature chips */
-.home-feats{
-  display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;
-}
+/* feature stickers */
+.home-feats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 .home-feat{
   background:var(--card);
-  border:1px solid var(--edge);
-  border-radius:18px;padding:16px 6px 14px;
-  text-align:center;
-  transition:border-color .2s,transform .15s;
+  border:2.5px solid var(--ink);
+  border-radius:12px;padding:12px 6px;
+  text-align:center;box-shadow:var(--shadow-sm);
+  transition:transform .12s;
 }
-.home-feat:active{transform:scale(.97)}
-.home-feat-ico{font-size:26px;display:block;margin-bottom:6px}
-.home-feat-lbl{
-  font-size:11px;font-weight:800;
-  color:var(--dim);line-height:1.4;display:block;
-}
+.home-feat:hover{transform:translateY(-2px)}
+.home-feat:nth-child(2){transform:rotate(1deg)}
+.home-feat:nth-child(3){transform:rotate(-1.2deg)}
+.home-feat:active{transform:translateY(2px)}
+.home-feat-ico{font-size:24px;display:block;margin-bottom:5px}
+.home-feat-lbl{font-size:11px;font-weight:800;color:var(--dim);line-height:1.4;display:block}
+.link{color:var(--terra);font-weight:900;text-decoration:underline wavy 2px var(--saffron);cursor:pointer;display:inline;background:none;border:0;padding:0;box-shadow:none;font-family:inherit}
 
 /* ─── HOW-TO ─────────────────────────────────────────────── */
 .step{
   display:flex;gap:14px;align-items:flex-start;
-  background:var(--card);border-radius:14px;padding:14px;
+  background:var(--card);border:2.5px solid var(--ink);border-radius:14px;padding:13px 14px;
+  box-shadow:var(--shadow-sm);
 }
+.step:nth-child(even){transform:rotate(.4deg)}
+.step:nth-child(odd){transform:rotate(-.4deg)}
 .step-num{
-  min-width:34px;height:34px;border-radius:50%;
-  background:linear-gradient(135deg,var(--flame),var(--fire2));
+  min-width:34px;height:34px;border-radius:9px;
+  background:var(--saffron);color:var(--ink);
   display:grid;place-items:center;
-  font-size:15px;font-weight:900;color:#fff;flex-shrink:0;
+  font-size:16px;font-weight:900;border:2.5px solid var(--ink);
+  box-shadow:2px 2px 0 var(--ink);flex-shrink:0;
+  transform:rotate(-3deg);
 }
 
 /* ─── TIMER ──────────────────────────────────────────────── */
 .clock-big{
   font-size:clamp(72px,22vw,100px);font-weight:900;
   text-align:center;font-variant-numeric:tabular-nums;
+  color:var(--ink);text-shadow:3px 3px 0 var(--saffron);
   transition:color .3s;
 }
-.clock-big.low{color:var(--flame);animation:pulse 1s infinite}
-.clock-sm{font-size:15px;font-variant-numeric:tabular-nums;color:var(--dim)}
-.clock-sm.low{color:var(--flame);font-weight:800}
+.clock-big.low{color:var(--terra);animation:pulse 1s infinite}
+.clock-sm{font-size:15px;font-variant-numeric:tabular-nums;color:var(--dim);font-weight:800}
+.clock-sm.low{color:var(--terra);font-weight:900}
 
 /* ─── RESULT ─────────────────────────────────────────────── */
 .result-banner{
-  border-radius:22px;padding:24px;text-align:center;
-  border:2px solid;
+  border-radius:20px;padding:22px;text-align:center;
+  border:3px solid var(--ink);box-shadow:var(--shadow);
+  position:relative;
 }
-.result-caught{background:rgba(46,255,168,.07);border-color:var(--mint)}
-.result-escaped{background:rgba(255,69,0,.07);border-color:var(--flame)}
+.result-banner::after{
+  content:'';position:absolute;top:8px;right:14px;
+  width:18px;height:18px;border-radius:4px;
+  background:var(--saffron);border:2px solid var(--ink);transform:rotate(12deg);
+}
+.result-caught{background:#E2F4E8;border-color:var(--tea)}
+.result-escaped{background:#FFE6DA;border-color:var(--terra)}
 
 /* ─── FOOTBALL THEME ────────────────────────────────────── */
 .football-edition{
   display:inline-flex;align-items:center;gap:5px;
   font-size:11px;font-weight:900;letter-spacing:.5px;
   padding:4px 12px;border-radius:99px;margin-bottom:6px;
-  background:rgba(27,107,46,.25);color:#4CAF50;
-  border:1px solid rgba(76,175,80,.35);
+  background:#E2F4E8;color:var(--tea);
+  border:2px solid var(--tea);
 }
-.word-football{color:#4CAF50;text-shadow:0 2px 14px rgba(76,175,80,.35)}
+.word-football{color:var(--tea);background:linear-gradient(180deg,rgba(63,186,154,.5),rgba(63,186,154,.22))}
 .word-outsider-football{
-  color:var(--flame);
-  font-size:clamp(26px,7vw,38px)!important;
+  color:var(--terra);
+  font-size:clamp(28px,7vw,40px)!important;
   line-height:1.25;
 }
-.football-cat-btn{border-color:rgba(76,175,80,.35)!important}
-.football-cat-btn.on{border-color:#4CAF50!important;background:rgba(76,175,80,.1)!important}
+.football-cat-btn{border-color:var(--tea)!important}
+.football-cat-btn.on{border-color:var(--tea)!important;background:#E2F4E8!important}
 
 /* ─── CONFETTI ───────────────────────────────────────────── */
 .confetti-piece{
@@ -387,122 +469,121 @@ tr.me td{color:var(--flame)}
 
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
-/* ─── CATEGORY GRID ─────────────────────────────────────── */
-.cat-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
+/* ─── CATEGORY SLIDER (slides) ───────────────────────────── */
+.cat-carousel{position:relative}
+.cat-slider{
+  display:flex;gap:8px;overflow-x:auto;
+  padding:6px 2px 14px;
+  scroll-snap-type:x mandatory;
+  scroll-snap-stop:always;
+  scrollbar-width:none;
+  overscroll-behavior-x:contain;
+  cursor:grab;
+  -webkit-user-select:none;user-select:none;
 }
-.cat-grid .cat-all{
-  grid-column:1/-1;
-}
-.cat-card{
-  width:100%;text-align:center;
-  background:var(--card);border:2px solid var(--edge);
-  border-radius:16px;padding:16px 10px;
-  color:var(--chalk);font-size:14px;font-weight:800;
+.cat-slider.dragging{cursor:grabbing;scroll-snap-type:none}
+.cat-slider::-webkit-scrollbar{display:none}
+.cat-slide{
+  flex:0 0 calc((100% - 18px)/3.5);
+  scroll-snap-align:start;
+  position:relative;min-height:158px;
+  text-align:center;
+  background:var(--card);border:2.5px solid var(--ink);
+  border-radius:16px;padding:20px 8px 12px;
+  color:var(--ink);font-size:14px;font-weight:800;
   cursor:pointer;
-  transition:border-color .15s,background .15s,transform .1s;
-  display:flex;flex-direction:column;align-items:center;gap:6px;
-  line-height:1.3;
+  transition:transform .12s,box-shadow .12s,background .15s;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  line-height:1.3;box-shadow:0 3px 0 var(--ink);
 }
-.cat-card:active{transform:scale(.97)}
-.cat-card:hover{border-color:var(--dim)}
-.cat-card.on{border-color:var(--saffron);background:rgba(255,196,61,.08)}
-.cat-card .cat-emoji{font-size:32px;line-height:1}
-.cat-card .cat-count{
-  font-size:11px;font-weight:600;color:var(--dim);
-  background:var(--edge);border-radius:99px;
-  padding:2px 8px;margin-top:2px;
+.cat-slide:hover{transform:translateY(-2px)}
+.cat-slide:active{transform:translateY(1px);box-shadow:0 1px 0 var(--ink)}
+.cat-slide.on{background:#FFF1DC;box-shadow:3px 3px 0 var(--terra);border-color:var(--terra)}
+.cat-slide.football-card.on{box-shadow:3px 3px 0 var(--tea);border-color:var(--tea);background:#E2F4E8}
+.cat-slide .slide-n{
+  position:absolute;top:7px;inset-inline-start:8px;
+  font-size:10px;font-weight:900;color:var(--dim);
+  background:var(--paper2);border:1.5px solid var(--ink35);border-radius:99px;
+  padding:1px 7px;
 }
-.cat-card.football-card.on{border-color:#4CAF50;background:rgba(76,175,80,.08)}
-.cat-card.football-card .cat-count{color:#4CAF50}
-.cat-all-card{
-  width:100%;text-align:center;
-  background:linear-gradient(135deg,rgba(255,69,0,.1),rgba(255,196,61,.1));
-  border:2px solid var(--edge);
-  border-radius:16px;padding:14px;
-  color:var(--chalk);font-size:15px;font-weight:800;
-  cursor:pointer;
-  transition:border-color .15s,background .15s;
-  display:flex;align-items:center;justify-content:center;gap:10px;
+.cat-slide .cat-emoji{font-size:36px;line-height:1;margin-top:8px}
+.cat-slide .cat-name{font-size:14px}
+.slide-hint{
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  font-size:12px;font-weight:800;color:var(--dim);
+  margin:-4px 0 2px;transition:opacity .4s;
 }
-.cat-all-card:active{transform:scale(.98)}
-.cat-all-card.on{border-color:var(--saffron);background:rgba(255,196,61,.1)}
-.cat-all-card .cat-all-sub{font-size:12px;font-weight:600;color:var(--dim);margin-right:4px}
-
-/* ─── LOCKED CARD ───────────────────────────────────────── */
-.pick-locked{
-  width:100%;text-align:right;
-  background:rgba(30,21,48,.5);border:2px dashed var(--edge);
-  border-radius:14px;padding:14px 16px;
-  color:var(--dim);font-size:16px;font-weight:700;
-  cursor:not-allowed;margin-bottom:8px;
-  position:relative;overflow:hidden;
+.slide-hint .wiggle{display:inline-block;animation:hintWiggle 1.6s ease-in-out infinite}
+.slide-hint.done{opacity:0;pointer-events:none}
+@keyframes hintWiggle{0%,100%{transform:translateX(0)}50%{transform:translateX(-6px)}}
+.slide-arrow{
+  position:absolute;top:94px;transform:translateY(-50%);
+  width:34px;height:34px;padding:0;border-radius:50%;
+  background:var(--paper);color:var(--ink);
+  border:2.5px solid var(--ink);box-shadow:var(--shadow-sm);
+  font-size:18px;font-weight:900;display:grid;place-items:center;z-index:3;
 }
-.pick-locked .sub{display:block;font-size:12px;font-weight:600;color:var(--dim);margin-top:3px}
-.soon-badge{
-  position:absolute;left:14px;top:50%;transform:translateY(-50%);
-  font-size:10px;font-weight:900;letter-spacing:.5px;
-  padding:3px 10px;border-radius:99px;
-  background:rgba(155,139,191,.15);color:var(--dim);border:1px solid var(--edge);
-}
+.slide-arrow:active{transform:translateY(-50%) translateY(2px);box-shadow:0 1px 0 var(--ink)}
+.sa-prev{inset-inline-start:-4px}
+.sa-next{inset-inline-end:-4px}
 
 /* ─── PROGRESS BAR ──────────────────────────────────────── */
 .prog-bar{
-  height:4px;border-radius:2px;background:var(--edge);
-  overflow:hidden;
+  height:8px;border-radius:4px;background:var(--ink15);
+  border:2px solid var(--ink);overflow:hidden;
 }
 .prog-fill{
   height:100%;border-radius:2px;
-  background:linear-gradient(90deg,var(--flame),var(--saffron));
+  background:repeating-linear-gradient(-45deg,var(--terra) 0 10px,var(--terra2) 10px 20px);
   transition:width .3s;
 }
 
 /* ─── TIE NOTICE ─────────────────────────────────────────── */
 .tie-notice{
-  background:rgba(255,196,61,.08);border:1px solid rgba(255,196,61,.3);
+  background:#FFF1DC;border:2.5px solid var(--saffron);
   border-radius:14px;padding:14px;text-align:center;
+  box-shadow:var(--shadow-sm);transform:rotate(-.4deg);
 }
 
 /* ─── QUIT BUTTON ────────────────────────────────────────── */
 .quit-btn{
   position:fixed;top:14px;left:14px;
-  width:34px;height:34px;padding:0;
+  width:36px;height:36px;padding:0;
   border-radius:50%;
-  background:rgba(30,21,48,.75);
-  border:1.5px solid var(--edge);
-  color:var(--dim);font-size:15px;
+  background:var(--paper);
+  border:2.5px solid var(--ink);
+  color:var(--ink);font-size:15px;
   display:grid;place-items:center;
   z-index:100;cursor:pointer;
-  backdrop-filter:blur(6px);
-  transition:color .15s,border-color .15s;
-  font-family:inherit;width:34px;
+  box-shadow:var(--shadow-sm);
+  transition:transform .12s;
+  font-family:inherit;
 }
-.quit-btn:hover{color:var(--chalk);border-color:var(--dim)}
-.quit-btn:focus-visible{outline:3px solid var(--mint);outline-offset:3px}
+.quit-btn:hover{transform:translateY(-2px)}
+.quit-btn:focus-visible{outline:3px solid var(--terra);outline-offset:3px}
 
 /* ─── MODAL ──────────────────────────────────────────────── */
 .modal-overlay{
   position:fixed;inset:0;
-  background:rgba(18,13,31,.88);
+  background:rgba(42,33,24,.5);
   z-index:200;
   display:flex;align-items:center;justify-content:center;
   padding:24px;
-  backdrop-filter:blur(5px);
+  backdrop-filter:blur(2px);
   animation:fadeIn .2s ease both;
 }
 .modal-overlay[hidden]{display:none}
 .modal-box{
-  background:var(--raise);
-  border:1px solid var(--edge);
-  border-radius:22px;
-  padding:28px 22px;
+  background:var(--card);
+  border:3px solid var(--ink);
+  border-radius:18px;
+  padding:26px 22px;
   width:100%;max-width:360px;
   text-align:center;
+  box-shadow:6px 6px 0 rgba(42,33,24,.35);
 }
-.modal-box h2{font-size:20px;margin-bottom:10px;color:var(--chalk)}
-.modal-box p{font-size:14px;margin-bottom:22px;color:var(--dim);line-height:1.6}
+.modal-box h2{font-size:22px;font-family:'Lalezar','Cairo',sans-serif;font-weight:400;margin-bottom:8px;color:var(--ink)}
+.modal-box p{font-size:14px;margin-bottom:20px;color:var(--dim);line-height:1.6}
 </style>
 </head>
 <body>
@@ -855,7 +936,7 @@ const S = {
   round:0, intrusHistory:[], chaosHistory:[], scores:{},
   r:null, idx:0, tieRound:false,
   clockLeft:0, clockDone:false,
-  nameError:'',
+  nameError:'', countInput:false,
 };
 
 /* ══════════════════════════════════════════════════════════
@@ -975,18 +1056,6 @@ function buildHomeBg(){
   ['home-orb home-orb-1','home-orb home-orb-2','home-orb home-orb-3'].forEach(cls=>{
     const o=document.createElement('div'); o.className=cls; bg.appendChild(o);
   });
-  /* floating emojis */
-  const emojis=['🎭','🔥','😂','🃏','🎲','💥','👀','🤫','🕵️','😈','🤡','💀','⚡','🎯','💫'];
-  emojis.forEach((e,i)=>{
-    const s=document.createElement('span');
-    s.textContent=e;
-    s.style.cssText=`
-      left:${4+Math.random()*92}%;top:${4+Math.random()*92}%;
-      animation-delay:${i*0.35}s;animation-duration:${2.8+Math.random()*2.5}s;
-      font-size:${20+Math.random()*26}px;
-    `;
-    bg.appendChild(s);
-  });
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -1018,15 +1087,50 @@ window.act = {};
 
 function hdr(){
   return `<div class="bar anim-fadeup">
-    <span>الجولة <b>${S.round}</b> / <b>${ROUNDS}</b></span>
-    <span style="color:var(--saffron)">${esc(S.r?S.r.cat:'')}</span>
+    <span>جولة <b>${S.round}</b> / ${ROUNDS}</span>
+    <span class="cat-pill">${esc(S.r?S.r.cat:'')}</span>
   </div><div class="zig"></div>`;
 }
 
 const GAME_PHASES = new Set(['pass','reveal','chaos','chain','votepass','cast','judge','bonus','result']);
 
+/* shared category slides for setup/config */
+function catChips(){
+  const lbl=c=>c.n.replace(/^\S+\s/,'');
+  const slides=[
+    {id:null,  em:'🎲', name:'عشوائي'},
+    ...CATS.map(c=>({
+      id:c.id,
+      em:c.n.match(/\p{Emoji}/u)?.[0]||'🗂️',
+      name:lbl(c)
+    }))
+  ];
+  return slides.map((it,i)=>{
+    const arg = it.id===null ? 'null' : "'"+it.id+"'";
+    const key = it.id===null ? '__all__' : it.id;
+    return `
+    <button class="cat-slide ${S.catId===it.id?'on':''} ${it.id==='football'?'football-card':''}"
+      data-cat="${key}" onclick="act.cat(${arg})">
+      <span class="slide-n">${i+1}</span>
+      <span class="cat-emoji">${it.em}</span>
+      <span class="cat-name">${esc(it.name)}</span>
+    </button>`;
+  }).join('');
+}
+
 function render(){
-  app.innerHTML = `<div class="screen">${VIEWS[S.phase]()}</div>`;
+  const same = S._lastPhase === S.phase;
+  S._lastPhase = S.phase;
+  const savedInputs = same ? Array.from(app.querySelectorAll('#names input')).map(i=>i.value) : null;
+  app.innerHTML = `<div class="screen${same?' same':''}">${VIEWS[S.phase]()}</div>`;
+  if(same && savedInputs){
+    app.querySelectorAll('#names input').forEach((n,i)=>{ if(savedInputs[i]!==undefined) n.value=savedInputs[i]; });
+  }
+  if(same && S._catScroll!==undefined){
+    const sl=app.querySelector('.cat-slider');
+    if(sl) sl.scrollLeft=S._catScroll;
+  }
+  bindCarousels();
   if(S.phase==='home') buildHomeBg();
   const af = app.querySelector('[autofocus]'); if(af) af.focus();
   const qb = document.getElementById('quit-btn');
@@ -1040,11 +1144,20 @@ const VIEWS = {
 
 /* ── HOME ─────────────────────────────────────────────────── */
 home: ()=>`
+  <div class="ticker" aria-hidden="true">
+    <span class="track">برا السالفة 🕵️ بالدارجة 100% • جوج كلميات واحد نجيبها ✦ برا السالفة 🕵️ بالدارجة 100% • جوج كلميات واحد نجيبها ✦</span>
+  </div>
   <div class="spacer"></div>
 
-  <div style="text-align:center" class="anim-fadeup">
+  <div class="hero anim-pop">
     <div class="home-mascot-wrap">
-      <div class="home-mascot-ring"></div>
+      <svg class="star8" viewBox="0 0 100 100" aria-hidden="true">
+        <g fill="none" stroke="#F2B23D" stroke-width="3">
+          <path d="M50 6 L59 41 L94 50 L59 59 L50 94 L41 59 L6 50 L41 41 Z"/>
+          <circle cx="50" cy="50" r="9"/>
+        </g>
+      </svg>
+      <span class="tape"></span>
       <span class="home-mascot-emoji">🕵️</span>
     </div>
     <div class="home-title-wrap">
@@ -1052,127 +1165,97 @@ home: ()=>`
       <span class="home-title-salfa">السالفة</span>
     </div>
     <div class="home-darija-badge">🇲🇦 بالدارجة</div>
-    <p class="home-tagline">واش فاهم السالفة، ولا غير كتهضر؟</p>
-  </div>
-
-  <div class="home-feats anim-fadeup d2" style="margin-top:10px">
-    <div class="home-feat">
-      <span class="home-feat-ico">👥</span>
-      <span class="home-feat-lbl">3–8<br>لاعبين</span>
-    </div>
-    <div class="home-feat">
-      <span class="home-feat-ico">📱</span>
-      <span class="home-feat-lbl">طيليفون<br>واحد</span>
-    </div>
-    <div class="home-feat">
-      <span class="home-feat-ico">🔥</span>
-      <span class="home-feat-lbl">دارجة<br>100٪</span>
-    </div>
+    <p class="home-tagline">واش فاهم؟ 🤨</p>
   </div>
 
   <div class="spacer"></div>
-  <button class="btn-cta anim-fadeup d3" onclick="act.setup()">🎲 بدا اللعب</button>
-  <button class="btn-ghost anim-fadeup d4" onclick="go('howto')">كيفاش تلعب؟</button>
-  <p class="sm anim-fadeup d5" style="text-align:center;margin-top:6px;color:var(--edge)">
-    نسخة تجريبية • ${ROUNDS} جولات
-  </p>`,
+  <button class="btn-cta anim-pop d2" onclick="act.quickStart()">🚀 يلا نبداو</button>
+  <button class="btn-ghost anim-fadeup d3" onclick="go('howto')">؟ كيفاش</button>
+
+  <div class="home-feats anim-fadeup d4">
+    <div class="home-feat"><span class="home-feat-ico">👥</span><span class="home-feat-lbl">3–15<br>لاعبين</span></div>
+    <div class="home-feat"><span class="home-feat-ico">📱</span><span class="home-feat-lbl">طيليفون<br>واحد</span></div>
+    <div class="home-feat"><span class="home-feat-ico">🔥</span><span class="home-feat-lbl">دارجة<br>100٪</span></div>
+  </div>`,
 
 /* ── HOW TO ────────────────────────────────────────────────── */
 howto: ()=>`
-  <h2 class="anim-fadeup">كيفاش تلعب؟</h2>
+  <h2 class="anim-pop">كيفاش؟ فالسرعة 🏃</h2>
   <div class="step anim-fadeup d1">
     <div class="step-num">1</div>
-    <div><b>اختيار الفئة</b><p style="margin-top:4px">اللاعبون يختارون فئة، واللعبة تختار كلمة سرية ولاعباً واحداً عشوائياً ليكون المحتال.</p></div>
+    <div><b>شوف دورك</b><p style="margin-top:4px">صيفط الطيليفون — كلا واحد يشوف لوحدو. واحد ما كيشوفش الكلمة (برا السالفة 🕵️).</p></div>
   </div>
   <div class="step anim-fadeup d2">
     <div class="step-num">2</div>
-    <div><b>كشف الأدوار</b><p style="margin-top:4px">كل لاعب يشوف دوره لوحده. اللاعب العادي يشوف الفئة والكلمة. برا السالفة يشوف الفئة فقط.</p></div>
+    <div><b>النقاش</b><p style="margin-top:4px">كلا واحد كيعطي تلميح. برا السالفة كيمثل ويحاول يخمن فين غادي.</p></div>
   </div>
   <div class="step anim-fadeup d3">
     <div class="step-num">3</div>
-    <div><b>النقاش</b><p style="margin-top:4px">كل لاعب كيعطي تلميح. برا السالفة خاصو يمثل ويحاول يكتشف الكلمة.</p></div>
+    <div><b>التصويت</b><p style="margin-top:4px">الكل يصوت على شكون خارج، وبرا السالفة عندو فرصة أخيرة يخمن (نقطة إضافية).</p></div>
   </div>
   <div class="step anim-fadeup d4">
     <div class="step-num">4</div>
-    <div><b>التصويت</b><p style="margin-top:4px">الكل يصوت على شكون برا السالفة — حتى المحتال نفسو. ما يصوتش حد على راسو.</p></div>
-  </div>
-  <div class="step anim-fadeup d4" style="animation-delay:.2s">
-    <div class="step-num">5</div>
-    <div><b>الفرصة الأخيرة</b><p style="margin-top:4px">برا السالفة دايماً عندو فرصة يخمن الكلمة من عدة اختيارات — نقطة إلا صاب!</p></div>
-  </div>
-  <div class="step anim-fadeup d5">
-    <div class="step-num">6</div>
-    <div><b>النقاط</b><p style="margin-top:4px">+1 لكل لاعب صوت صح. +1 لبرا السالفة إلا خمن الكلمة. النقاط تتراكم على عدة جولات.</p></div>
+    <div><b>5 جولات — الأكثر نقاط يربح.</b></div>
   </div>
   <div class="spacer"></div>
-  <button class="btn-primary anim-fadeup" onclick="go('home')">← رجع</button>`,
+  <button class="btn-cta anim-fadeup d5" onclick="act.quickStart()">فهمت — نبداو 🚀</button>
+  <button class="btn-ghost anim-fadeup" onclick="go('home')">← رجع</button>`,
 
-/* ── SETUP ─────────────────────────────────────────────────── */
+/* ── SETUP (count + names + category, one screen) ────────── */
 setup: ()=>{
   const n = S.players.length || 3;
-  const canStart = n >= 3;
   return `
-  <h2 class="anim-fadeup">👥 شكون غادي يلعب؟</h2>
-  <p class="anim-fadeup" style="margin-bottom:8px">
-    دخل الأسماء — من <b style="color:var(--chalk)">3</b> حتى <b style="color:var(--chalk)">8</b> لاعبين.
-  </p>
-  ${S.nameError?`<div class="anim-shake" style="background:rgba(255,69,0,.1);border:1px solid var(--flame);border-radius:12px;padding:10px 14px;font-size:13px;color:var(--flame);text-align:center">${esc(S.nameError)}</div>`:''}
-  <div id="names" class="anim-fadeup d1" style="display:flex;flex-direction:column;gap:8px">
+  <h2 class="anim-fadeup">شكون غادي يلعب؟ 🎲</h2>
+  <p class="sm anim-fadeup" style="margin-bottom:6px">الأسماء كتكتب وحدها — إلا بغيتي بدلهم 😉</p>
+  <div class="count-row anim-fadeup d1">
+    ${[3,4,5,6,7].map(k=>`
+      <button class="count-chip ${n===k?'on':''}" onclick="act.count(${k})">${k}</button>`).join('')}
+    <button class="count-chip count-more ${n>7?'on':''}" onclick="act.askCount()" aria-label="عدد آخر">…</button>
+  </div>
+  ${S.countInput?`
+  <div class="count-typer anim-fadeup d1">
+    <input id="player-count" class="count-input" type="number" inputmode="numeric" min="3" max="15"
+      value="${n}" oninput="act.setCount(this.value)" onblur="act.blurCount(this)" aria-label="عدد اللاعبين">
+    <span class="count-unit">👥 لاعبين</span>
+  </div>
+  <p class="count-hint anim-fadeup d1"><span class="wag">👆</span> كتب هنا عدد اللاعبين (حتى 15)</p>`:''}
+  ${S.nameError?`<div class="anim-shake" style="background:#FFE6DA;border:2.5px solid var(--terra);border-radius:12px;padding:10px 14px;font-size:13px;color:var(--terra);text-align:center">${esc(S.nameError)}</div>`:''}
+  <div id="names" class="anim-fadeup d2" style="display:flex;flex-direction:column;gap:8px;margin-top:4px">
     ${Array.from({length:n},(_,i)=>
-      `<input id="p${i}" placeholder="لاعب ${i+1}" value="${esc(S.players[i]||'')}" maxlength="14"
+      `<input id="p${i}" placeholder="لاعب ${i+1}" value="${esc(S.players[i]||'لاعب '+(i+1))}" maxlength="14"
         oninput="S.nameError=''">`
     ).join('')}
   </div>
-  <div class="row anim-fadeup d2">
-    <button class="btn-ghost btn-sm" onclick="act.less()" ${n<=3?'disabled':''}>− حذف لاعب</button>
-    <button class="btn-ghost btn-sm" onclick="act.more()" ${n>=8?'disabled':''}>+ إضافة لاعب</button>
+  <div class="anim-fadeup d3">
+    <h3 style="margin-bottom:8px;font-size:14px;color:var(--dim)">الفئة</h3>
+    <div class="cat-carousel">
+      <div class="cat-slider" onscroll="S._catScroll=this.scrollLeft;document.querySelector('.slide-hint')?.classList.add('done')">${catChips()}</div>
+      <button class="slide-arrow sa-prev" onclick="act.slideCats(-1)" aria-label="القبل">‹</button>
+      <button class="slide-arrow sa-next" onclick="act.slideCats(1)" aria-label="التالي">›</button>
+    </div>
+    <p class="slide-hint"><span class="wiggle">👈</span> اسحب باش تشوف الفئات</p>
   </div>
   <div class="spacer"></div>
-  <button class="btn-cta anim-fadeup d3" onclick="act.names()" ${canStart?'':'disabled'}>من بعد →</button>
-  <button class="btn-ghost anim-fadeup d4" onclick="go('home')">← رجع للرئيسية</button>`;
+  <button class="btn-cta anim-fadeup d4" onclick="act.launch()">يلا نبداو 🚀</button>
+  <div class="row">
+    <button class="btn-ghost anim-fadeup d5" onclick="go('home')">← رجع</button>
+    <button class="btn-ghost anim-fadeup d5" onclick="go('howto')">؟</button>
+  </div>`;
 },
 
-/* ── CONFIG ────────────────────────────────────────────────── */
+/* ── CONFIG (same players, pick category) ─────────────────── */
 config: ()=>`
-  <h2 class="anim-fadeup">⚙️ الإعدادات</h2>
-
-  <div class="anim-fadeup d1">
-    <h3 style="margin-bottom:10px;font-size:15px;color:var(--dim)">🎮 المود</h3>
-    <button class="pick on" style="cursor:default">
-      كلاسيك 🎯
-      <span class="sub">الكلمة السرية — واحد برا السالفة — بسيط ومباشر.</span>
-    </button>
-    <div class="pick-locked">
-      هيبريد 🔥
-      <span class="sub">كاوس كارد + مهام سرية — للمجانين!</span>
-      <span class="soon-badge">🔒 قريبا</span>
-    </div>
+  <h2 class="anim-fadeup">الفئة ديال هاد الجولة</h2>
+  <p class="sm anim-fadeup" style="margin-bottom:6px">اختار ودغابا نبداو 👇</p>
+  <div class="cat-carousel anim-fadeup d1">
+    <div class="cat-slider" onscroll="S._catScroll=this.scrollLeft;document.querySelector('.slide-hint')?.classList.add('done')">${catChips()}</div>
+    <button class="slide-arrow sa-prev" onclick="act.slideCats(-1)" aria-label="القبل">‹</button>
+    <button class="slide-arrow sa-next" onclick="act.slideCats(1)" aria-label="التالي">›</button>
   </div>
-
-  <div class="anim-fadeup d2">
-    <h3 style="margin-bottom:10px;font-size:15px;color:var(--dim)">🗂️ اختار الفئة</h3>
-
-    <button class="cat-all-card ${S.catId===null?'on':''}" onclick="act.cat(null)" style="margin-bottom:10px">
-      <span style="font-size:28px">🎲</span>
-      <span>عشوائية</span>
-      <span class="cat-all-sub">اللعبة تختار</span>
-    </button>
-
-    <div class="cat-grid">
-      ${CATS.map(c=>`
-        <button class="cat-card ${S.catId===c.id?'on':''} ${c.football?'football-card':''}"
-          onclick="act.cat('${c.id}')">
-          <span class="cat-emoji">${c.n.match(/\p{Emoji}/u)?.[0]||'🗂️'}</span>
-          <span>${c.n.replace(/^\S+\s/,'')}</span>
-          <span class="cat-count">${c.football?'⚽ '+c.w.length+' لاعب':c.w.length+' كلمة'}</span>
-        </button>
-      `).join('')}
-    </div>
-  </div>
-
+  <p class="slide-hint"><span class="wiggle">👈</span> اسحب باش تشوف الفئات</p>
   <div class="spacer"></div>
-  <button class="btn-cta anim-fadeup" onclick="act.start()">يالله نبداو! 🚀</button>
-  <button class="btn-ghost anim-fadeup" onclick="go('setup')">← رجع</button>`,
+  <button class="btn-cta anim-fadeup d2" onclick="act.start()">يلا نبداو 🚀</button>
+  <button class="btn-ghost anim-fadeup d3" onclick="${S.round>0?'act.board()':'go(\'home\')'}">← رجع</button>`,
 
 /* ── PASS PHONE ────────────────────────────────────────────── */
 pass: ()=>{
@@ -1183,17 +1266,15 @@ pass: ()=>{
     <div class="prog-fill" style="width:${prog}%"></div>
   </div>
   <div class="spacer"></div>
-  <div style="text-align:center" class="anim-fadeup">
-    <p class="sm" style="color:var(--dim);margin-bottom:6px">
-      كشف الأدوار — ${S.idx+1} / ${S.players.length}
-    </p>
-    <div style="font-size:56px">📱</div>
+  <div style="text-align:center" class="anim-pop">
+    <p class="sm" style="color:var(--dim);margin-bottom:6px">دور ${S.idx+1} / ${S.players.length}</p>
+    <div style="font-size:52px;animation:float 2.6s ease-in-out infinite">📱</div>
     <p style="margin-top:12px;font-size:16px">عطي الطيليفون لـ</p>
-    <h1 style="font-size:52px;margin:6px 0;color:var(--saffron)">${esc(S.players[S.idx])}</h1>
-    <p class="sm" style="color:var(--dim)">ما تشوفش الشاشة إلا ماشي نوبتك 🙈</p>
+    <h1 style="font-size:52px;margin:6px 0;color:var(--terra)">${esc(S.players[S.idx])}</h1>
+    <p class="sm" style="color:var(--dim)">الباقي ما يشوفش 🙈</p>
   </div>
   <div class="spacer"></div>
-  <button class="btn-cta" onclick="act.toReveal()">أنا هو ${esc(S.players[S.idx])} ✋</button>`;
+  <button class="btn-cta" onclick="act.toReveal()">أنا ${esc(S.players[S.idx])} ✋</button>`;
 },
 
 /* ── REVEAL ────────────────────────────────────────────────── */
@@ -1203,12 +1284,11 @@ reveal: ()=>{
   return `
   ${hdr()}
   <div class="hold" id="hold" style="--p:0">
-    <div class="veil" style="display:flex;flex-direction:column;align-items:center;gap:12px">
+    <div class="veil">
       <div class="ring" id="ring">
         <div class="ring-inner">🔒</div>
       </div>
-      <div class="hint">شد بصبعك باش تشوف</div>
-      <p class="sm">كيتخبى ملي تقلع صبعك</p>
+      <div class="hint">شد بصبعك — كيتخبى ملي تقلع</div>
     </div>
     <div class="secret">
       <span class="role-badge ${isI?'role-intrus':'role-safe'}">
@@ -1216,11 +1296,11 @@ reveal: ()=>{
       </span>
       <div class="tag" style="margin:10px 0;display:inline-block">${esc(r.cat)}</div>
       ${isI ? `
-        <div class="word-reveal" style="font-size:clamp(26px,7vw,38px);color:var(--flame)">نتا برا السالفة</div>
-        <p style="font-size:13px;color:var(--dim);margin-top:8px">تعرف الفئة فقط — حاول تكتشف الكلمة من التلميحات 🔍</p>
+        <div class="word-reveal word-outsider-football" style="color:var(--terra)">نتا برا السالفة</div>
+        <p style="font-size:13px;color:var(--dim);margin-top:8px">تشوف الفئة فقط — استوضح التلميحات وإخمن الكلمة 🔍</p>
       ` : `
         <div class="${r.football?'word-reveal word-football':'word-reveal'}">${esc(r.word)}</div>
-        <p style="font-size:13px;color:var(--dim)">${r.football?'هداك اللاعب هو السر — عطي indice بلا ما تفضح 🤫':'عطي indice بلا ما تفضح الكلمة 🤫'}</p>
+        <p style="font-size:13px;color:var(--dim)">عطى إنديس بلا ما يتنفضح 🤫</p>
       `}
       ${m?`<div class="mission-txt">🎯 مهمتك<br>${esc(m.t)}</div>`:''}
     </div>
@@ -1264,10 +1344,10 @@ chain: ()=>{
   </div>
   <div style="text-align:center;padding:4px 0" class="anim-fadeup d1">
     <p style="font-size:13px;color:var(--dim)">دابا كيسول</p>
-    <h2 style="font-size:40px;color:var(--saffron)">${esc(me)}</h2>
-    <p class="sm" style="margin-top:4px;color:var(--dim)">سول شي واحد — من بعد ما يجاوب، هو اللي يسول اللي جاي</p>
+    <h2 style="font-size:40px;color:var(--terra)">${esc(me)}</h2>
+    <p class="sm" style="margin-top:4px;color:var(--dim)">سول شي واحد — اللي جاوب هو اللي يسول اللي جاي</p>
   </div>
-  <h3 class="anim-fadeup d2" style="font-size:14px;color:var(--dim)">يسول على:</h3>
+  <h3 class="anim-fadeup d2" style="font-size:14px;color:var(--dim)">سول على:</h3>
   ${opts.map(([p,i])=>`
   <button class="pick anim-fadeup" onclick="act.ask(${i})">
     ${esc(p)}
@@ -1291,7 +1371,7 @@ votepass: ()=>{
   ${S.tieRound?`
   <div class="tie-notice anim-fadeup">
     <div style="font-size:28px">⚡</div>
-    <b style="color:var(--saffron)">تعادل!</b>
+    <b style="color:var(--terra)">تعادل!</b>
     <p class="sm" style="margin-top:4px">إعادة التصويت بين: <b style="color:var(--chalk)">${esc(tiedNames)}</b></p>
   </div>`:''}
   <div class="prog-bar anim-fadeup">
@@ -1301,11 +1381,11 @@ votepass: ()=>{
     صوّتو <b style="color:var(--chalk)">${done}</b> / ${total}
   </p>
   <div class="spacer"></div>
-  <div style="text-align:center" class="anim-fadeup d1">
-    <div style="font-size:52px">🗳️</div>
+  <div style="text-align:center" class="anim-pop">
+    <div style="font-size:48px">🗳️</div>
     <p style="margin-top:12px;font-size:16px">عطي الطيليفون لـ</p>
-    <h1 style="font-size:52px;margin:6px 0;color:var(--saffron)">${esc(S.players[S.idx])}</h1>
-    <p class="sm" style="color:var(--dim)">دير صوتك لوحدك بسرية 🤫</p>
+    <h1 style="font-size:52px;margin:6px 0;color:var(--terra)">${esc(S.players[S.idx])}</h1>
+    <p class="sm" style="color:var(--dim)">دخل صوتك بسرية 🤫</p>
   </div>
   <div class="spacer"></div>
   <button class="btn-cta" onclick="act.toCast()">أنا واجد ✋</button>`;
@@ -1318,9 +1398,9 @@ cast: ()=>{
   const opts=S.players.map((p,i)=>[p,i]).filter(([p])=>p!==me&&pool.includes(p));
   return `
   ${hdr()}
-  <div class="anim-fadeup" style="text-align:center;padding:4px 0">
+  <div class="anim-pop" style="text-align:center;padding:4px 0">
     <p class="sm" style="color:var(--dim)">صوت</p>
-    <h2 style="font-size:28px;color:var(--saffron)">${esc(me)}</h2>
+    <h2 style="font-size:28px;color:var(--terra)">${esc(me)}</h2>
   </div>
   <h3 class="anim-fadeup d1" style="font-size:15px;color:var(--dim)">🕵️ شكون برا السالفة؟</h3>
   ${opts.map(([p,i])=>`
@@ -1363,7 +1443,7 @@ bonus: ()=>{
     r.bonusChoices=shuffle([r.word,...others]);
   }
   const status=r.caught
-    ?`${esc(r.intrus)}، تصابتي 😅 — عندك فرصة أخيرة!`
+    ?`${esc(r.intrus)}، تصابتي 😅 — فرصة أخيرة!`
     :`${esc(r.intrus)}، فلتي 😎 — خمن الكلمة!`;
   return `
   ${hdr()}
@@ -1371,7 +1451,7 @@ bonus: ()=>{
     <div style="font-size:48px">🎯</div>
     <span class="tag" style="margin:8px 0;display:inline-block">فرصة أخيرة</span>
     <h2 style="margin-top:10px">${status}</h2>
-    <p class="lead" style="margin-top:6px">اختار الكلمة السرية — إلا صبت كتربح نقطة!</p>
+    <p class="lead" style="margin-top:6px">صابت → نقطة إضافية ⭐</p>
   </div>
   ${r.bonusChoices.map((w,i)=>`
     <button class="pick anim-fadeup" onclick="act.guessChoice(${i})">${esc(w)}</button>
@@ -1403,14 +1483,14 @@ result: ()=>{
   ${hdr()}
   <div class="result-banner ${caught?'result-caught':'result-escaped'} anim-pop">
     <div style="font-size:52px">${caught?'🎉':'😈'}</div>
-    <h1 style="font-size:40px;color:${caught?'var(--mint)':'var(--flame)'};margin:6px 0">
+    <h1 style="font-size:40px;color:${caught?'var(--tea)':'var(--terra)'};margin:6px 0">
       ${caught?'تصاب برا السالفة!':'فلت برا السالفة!'}
     </h1>
     <p class="lead" style="font-size:15px;margin-top:4px">
-      برا السالفة: <b style="color:var(--saffron)">${esc(r.intrus)}</b>
+      برا السالفة: <b style="color:var(--terra)">${esc(r.intrus)}</b>
     </p>
     <p class="lead" style="font-size:15px">
-      الكلمة السرية: <b style="color:var(--saffron)">${esc(r.word)}</b>
+      الكلمة السرية: <b style="color:var(--terra)">${esc(r.word)}</b>
     </p>
   </div>
   <h3 class="anim-fadeup d1" style="font-size:14px;color:var(--dim);margin-top:4px">النتائج</h3>
@@ -1485,21 +1565,117 @@ act.confirmQuit = ()=>{
    ACTIONS
 ══════════════════════════════════════════════════════════ */
 act.setup = ()=>{ if(!S.players.length) S.players=['','',''];  go('setup'); };
-act.more  = ()=>{ const c=grab(); if(c.length<8){S.players=[...c,'']; render();} };
+act.more  = ()=>{ const c=grab(); if(c.length<MAX_PLAYERS){S.players=[...c,'']; render();} };
 act.less  = ()=>{ const c=grab(); if(c.length>3){S.players=c.slice(0,-1); render();} };
 
 function grab(){ return Array.from(app.querySelectorAll('#names input')).map(i=>i.value); }
 
-act.names = ()=>{
+function commitNames(dest){
   const v = grab().map((s,i)=>s.trim()||`لاعب ${i+1}`);
   if(new Set(v).size!==v.length){
-    S.nameError='السميات خاصهم يكونو مختلفين 😅'; render(); return;
+    S.nameError='السميات خاصهم يكونو مختلفين 😅'; render(); return false;
   }
   S.nameError='';
-  S.players=v; S.players.forEach(p=>S.scores[p]=0); go('config');
+  S.players=v;
+  S.scores={}; S.players.forEach(p=>S.scores[p]=0);
+  if(dest) go(dest);
+  return true;
+}
+
+/* one-tap start: prefill default names, let them pick count + category */
+act.quickStart = ()=>{
+  stopClock();
+  S.players = ['لاعب 1','لاعب 2','لاعب 3'];
+  S.nameError='';
+  go('setup');
 };
+
+/* player count — names auto-rewrite as لاعب 1..N */
+const MAX_PLAYERS = 15;
+const clampCount = v => Math.max(3, Math.min(MAX_PLAYERS, parseInt(v,10) || 3));
+function setPlayers(n){
+  n=clampCount(n);
+  S.players = Array.from({length:n},(_,i)=>'لاعب '+(i+1));
+  S.nameError='';
+  return n;
+}
+act.count = n=>{
+  setPlayers(n);
+  S.countInput=false;
+  render();
+};
+act.askCount = ()=>{ S.countInput=true; render(); };
+act.setCount = v=>{
+  const n=clampCount(v);
+  if(S.players.length===n) return;
+  setPlayers(n);
+  const wrap=document.getElementById('names');
+  if(wrap){
+    wrap.innerHTML = Array.from({length:n},(_,i)=>
+      `<input id="p${i}" placeholder="لاعب ${i+1}" value="${esc(S.players[i])}" maxlength="14"
+        oninput="S.nameError=''">`
+    ).join('');
+  }
+};
+act.blurCount = el=>{
+  const n=clampCount(el.value);
+  el.value=n;
+  if(S.players.length!==n) act.setCount(n);
+};
+
+act.launch = ()=>{
+  if(!commitNames()) return;
+  S.round=0; S.intrusHistory=[]; S.chaosHistory=[]; S.mode='classic';
+  act.start();
+};
+act.names  = ()=> commitNames('config');
 act.mode = m  => { S.mode=m; render(); };
 act.cat  = c  => { S.catId=c; render(); };
+
+/* swipe the category carousel by one slide */
+act.slideCats = d=>{
+  const el=document.querySelector('.cat-slider');
+  if(!el) return;
+  const card=el.querySelector('.cat-slide');
+  const w=(card?card.getBoundingClientRect().width:120)+8;
+  el.scrollBy({left:d*w,behavior:'smooth'});
+  const h=document.querySelector('.slide-hint');
+  if(h) h.classList.add('done');
+};
+
+/* drag-to-scroll the category carousel with a mouse (desktop) */
+function bindCarousels(){
+  app.querySelectorAll('.cat-slider').forEach(el=>{
+    if(el.dataset.dragBound) return;
+    el.dataset.dragBound='1';
+    let down=false,startX=0,startLeft=0,moved=false;
+    el.addEventListener('pointerdown',e=>{
+      if(e.pointerType==='touch') return;
+      down=true; moved=false;
+      startX=e.clientX; startLeft=el.scrollLeft;
+      el.classList.add('dragging');
+      try{ el.setPointerCapture(e.pointerId); }catch(_){}
+    });
+    el.addEventListener('pointermove',e=>{
+      if(!down) return;
+      const dx=e.clientX-startX;
+      if(Math.abs(dx)>4) moved=true;
+      el.scrollLeft=startLeft-dx;
+    });
+    const end=()=>{
+      if(!down) return;
+      down=false;
+      el.classList.remove('dragging');
+      if(moved){
+        const stop=ev=>{ ev.stopPropagation(); ev.preventDefault(); el.removeEventListener('click',stop,true); };
+        el.addEventListener('click',stop,true);
+      }
+    };
+    el.addEventListener('pointerup',end);
+    el.addEventListener('pointercancel',end);
+    el.addEventListener('pointerleave',end);
+  });
+}
 
 act.start = ()=>{
   if(S.round>=ROUNDS){ act.again(); return; }
