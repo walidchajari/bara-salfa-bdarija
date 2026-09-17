@@ -35,11 +35,13 @@ body{
   background:var(--paper);
   background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96"><g fill="none" stroke="%232A2118" stroke-opacity=".06" stroke-width="1.6"><path d="M48 14 L55 41 L82 48 L55 55 L48 82 L41 55 L14 48 L41 41 Z"/><circle cx="48" cy="48" r="6"/><path d="M0 20 L16 14 M96 20 L80 14 M0 76 L16 82 M96 76 L80 82"/><path d="M20 0 L14 16 M76 0 L82 16 M20 96 L14 80 M76 96 L82 80"/></g></svg>');
   background-size:96px 96px;
+  -webkit-user-select:none;user-select:none;-webkit-touch-callout:none;
   color:var(--chalk);
   font-family:'Cairo',system-ui,sans-serif;
   display:flex;justify-content:center;
   overscroll-behavior:none;
 }
+input,textarea{-webkit-user-select:text;user-select:text}
 body::before,body::after{
   content:'';position:fixed;z-index:0;pointer-events:none;
   border:2.5px solid var(--ink);
@@ -474,7 +476,7 @@ tr.me td{color:var(--terra)}
 .cat-slider{
   display:flex;gap:8px;overflow-x:auto;
   padding:6px 2px 14px;
-  scroll-snap-type:x mandatory;
+  scroll-snap-type:x proximity;
   scroll-snap-stop:always;
   scrollbar-width:none;
   overscroll-behavior-x:contain;
@@ -1121,14 +1123,41 @@ function catChips(){
 function render(){
   const same = S._lastPhase === S.phase;
   S._lastPhase = S.phase;
+  const catScroll = S._catScroll;
   const savedInputs = same ? Array.from(app.querySelectorAll('#names input')).map(i=>i.value) : null;
+  const oldCars = same ? Array.from(app.querySelectorAll('.cat-carousel')) : null;
   app.innerHTML = `<div class="screen${same?' same':''}">${VIEWS[S.phase]()}</div>`;
   if(same && savedInputs){
     app.querySelectorAll('#names input').forEach((n,i)=>{ if(savedInputs[i]!==undefined) n.value=savedInputs[i]; });
   }
-  if(same && S._catScroll!==undefined){
+  let keptCar = false;
+  if(oldCars && oldCars.length){
+    Array.from(app.querySelectorAll('.cat-carousel')).forEach((neu,i)=>{
+      const old = oldCars[i];
+      if(!old) return;
+      old.querySelectorAll('.cat-slide').forEach(s=>{
+        const isOn = s.getAttribute('data-cat')===(S.catId===null?'__all__':S.catId);
+        s.classList.toggle('on',isOn);
+        s.classList.toggle('football-card', isOn && s.getAttribute('data-cat')==='football');
+      });
+      neu.replaceWith(old);
+      keptCar = true;
+    });
+  }
+  if(keptCar){
+    if(catScroll!==undefined){
+      requestAnimationFrame(()=>{
+        const sl=app.querySelector('.cat-slider');
+        if(sl && Math.abs(sl.scrollLeft-catScroll)>1) sl.scrollLeft=catScroll;
+      });
+    }
+  } else if(same && catScroll!==undefined){
     const sl=app.querySelector('.cat-slider');
-    if(sl) sl.scrollLeft=S._catScroll;
+    if(sl) sl.scrollLeft=catScroll;
+  }
+  if(catScroll!==undefined){
+    const h=app.querySelector('.slide-hint');
+    if(h) h.classList.add('done');
   }
   bindCarousels();
   if(S.phase==='home') buildHomeBg();
@@ -1643,32 +1672,36 @@ act.slideCats = d=>{
   if(h) h.classList.add('done');
 };
 
-/* drag-to-scroll the category carousel with a mouse (desktop) */
+/* drag-to-scroll the category carousel with a mouse (desktop only) */
 function bindCarousels(){
+  if(window.matchMedia && window.matchMedia('(pointer:coarse)').matches) return;
   app.querySelectorAll('.cat-slider').forEach(el=>{
     if(el.dataset.dragBound) return;
     el.dataset.dragBound='1';
     let down=false,startX=0,startLeft=0,moved=false;
     el.addEventListener('pointerdown',e=>{
-      if(e.pointerType==='touch') return;
+      if(e.pointerType==='touch' || e.button!==0) return;
       down=true; moved=false;
       startX=e.clientX; startLeft=el.scrollLeft;
-      el.classList.add('dragging');
-      try{ el.setPointerCapture(e.pointerId); }catch(_){}
     });
     el.addEventListener('pointermove',e=>{
       if(!down) return;
       const dx=e.clientX-startX;
-      if(Math.abs(dx)>4) moved=true;
-      el.scrollLeft=startLeft-dx;
+      if(!moved && Math.abs(dx)>4){
+        moved=true;
+        el.classList.add('dragging');
+        try{ el.setPointerCapture(e.pointerId); }catch(_){}
+      }
+      if(moved){ e.preventDefault(); el.scrollLeft=startLeft-dx; }
     });
     const end=()=>{
       if(!down) return;
       down=false;
       el.classList.remove('dragging');
       if(moved){
-        const stop=ev=>{ ev.stopPropagation(); ev.preventDefault(); el.removeEventListener('click',stop,true); };
+        const stop=ev=>{ ev.stopPropagation(); ev.preventDefault(); };
         el.addEventListener('click',stop,true);
+        setTimeout(()=>el.removeEventListener('click',stop,true),300);
       }
     };
     el.addEventListener('pointerup',end);
